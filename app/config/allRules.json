@@ -1,0 +1,57 @@
+[
+   {
+      "enabled": true,
+      "category": "water",
+      "type": "ml",
+      "workingDays": [1, 2, 3, 4, 5, 6, 7],
+      "conditions": ["noLess", "progressionOff"],
+      "ruleCount": 1800,
+      "countPointsSuccess": 1,
+      "countPointsFail": -1.5,
+      "multiFactor": 0.25
+   },
+   {
+      "enabled": true,
+      "category": "wakeUp",
+      "type": "boolean",
+      "workingDays": [1, 2, 3, 4, 5, 6, 7],
+      "conditions": ["boolean", "progressionOff"],
+      "ruleCount": 1,
+      "countPointsSuccess": 3,
+      "countPointsFail": -5,
+      "multiFactor": 0.35
+   },
+   {
+      "enabled": true,
+      "category": "goToBed",
+      "type": "boolean",
+      "workingDays": [1, 2, 3, 4, 5, 6, 7],
+      "conditions": ["boolean", "progressionOff"],
+      "ruleCount": 1,
+      "countPointsSuccess": 3,
+      "countPointsFail": -5,
+      "multiFactor": 0.35
+   },
+   {
+      "enabled": true,
+      "category": "turnOffAllGadgets",
+      "type": "boolean",
+      "workingDays": [1, 2, 3, 4, 5, 6, 7],
+      "conditions": ["boolean", "progressionOff"],
+      "ruleCount": 1,
+      "countPointsSuccess": 3,
+      "countPointsFail": -5,
+      "multiFactor": 0.35
+   },
+   {
+      "enabled": true,
+      "category": "calories",
+      "type": "kcal",
+      "workingDays": [1, 2, 3, 4, 5],
+      "conditions": ["noMore", "progressionOn"],
+      "ruleCount": 1400,
+      "countPointsSuccess": 3,
+      "countPointsFail": -5,
+      "multiFactor": 0.35
+   }
+]
