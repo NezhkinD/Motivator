@@ -19,3 +19,5 @@ up:
 unlock:
 	sudo chown -R ${USER}:${USER} ./app
 	sudo chmod 775 ./app
+
+run: build up

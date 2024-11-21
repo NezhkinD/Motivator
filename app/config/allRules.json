@@ -1,21 +1,21 @@
 [
    {
       "enabled": true,
-      "category": "water",
+      "name": "water",
       "type": "ml",
       "workingDays": [1, 2, 3, 4, 5, 6, 7],
-      "conditions": ["noLess", "progressionOff"],
+      "conditions": ["noLess"],
       "ruleCount": 1800,
       "countPointsSuccess": 1,
       "countPointsFail": -1.5,
-      "multiFactor": 0.25
+      "multiFactor": 0
    },
    {
       "enabled": true,
-      "category": "wakeUp",
+      "name": "wakeUp",
       "type": "boolean",
       "workingDays": [1, 2, 3, 4, 5, 6, 7],
-      "conditions": ["boolean", "progressionOff"],
+      "conditions": ["noLess"],
       "ruleCount": 1,
       "countPointsSuccess": 3,
       "countPointsFail": -5,
@@ -23,10 +23,10 @@
    },
    {
       "enabled": true,
-      "category": "goToBed",
+      "name": "goToBed",
       "type": "boolean",
       "workingDays": [1, 2, 3, 4, 5, 6, 7],
-      "conditions": ["boolean", "progressionOff"],
+      "conditions": ["noLess"],
       "ruleCount": 1,
       "countPointsSuccess": 3,
       "countPointsFail": -5,
@@ -34,24 +34,79 @@
    },
    {
       "enabled": true,
-      "category": "turnOffAllGadgets",
+      "name": "turnOffAllGadgets",
       "type": "boolean",
       "workingDays": [1, 2, 3, 4, 5, 6, 7],
-      "conditions": ["boolean", "progressionOff"],
+      "conditions": ["noLess"],
       "ruleCount": 1,
       "countPointsSuccess": 3,
       "countPointsFail": -5,
-      "multiFactor": 0.35
+      "multiFactor": 0
    },
    {
       "enabled": true,
-      "category": "calories",
+      "name": "calories",
       "type": "kcal",
       "workingDays": [1, 2, 3, 4, 5],
-      "conditions": ["noMore", "progressionOn"],
+      "conditions": ["noLess"],
       "ruleCount": 1400,
       "countPointsSuccess": 3,
       "countPointsFail": -5,
       "multiFactor": 0.35
+   },
+   {
+      "enabled": true,
+      "name": "trainingPlaceNearHome",
+      "type": "boolean",
+      "workingDays": [1, 2, 3, 4, 5],
+      "conditions": ["noMore"],
+      "ruleCount": 1,
+      "countPointsSuccess": 3,
+      "countPointsFail": -2,
+      "multiFactor": 0.5
+   },
+   {
+      "enabled": true,
+      "name": "trainingPool",
+      "type": "boolean",
+      "workingDays": [7],
+      "conditions": ["noMore"],
+      "ruleCount": 1,
+      "countPointsSuccess": 3,
+      "countPointsFail": -2,
+      "multiFactor": 0.5
+   },
+   {
+      "enabled": true,
+      "name": "hookah",
+      "type": "number",
+      "workingDays": [1, 2, 3, 4, 5],
+      "conditions": ["noMore"],
+      "ruleCount": 0,
+      "countPointsSuccess": 2,
+      "countPointsFail": -3,
+      "multiFactor": 0.5
+   },
+   {
+      "enabled": true,
+      "name": "redBull",
+      "type": "number",
+      "workingDays": [1, 2, 3, 4, 5],
+      "conditions": ["noMore"],
+      "ruleCount": 0,
+      "countPointsSuccess": 2,
+      "countPointsFail": -4,
+      "multiFactor": 0.5
+   },
+   {
+      "enabled": true,
+      "name": "coolCola",
+      "type": "number",
+      "workingDays": [1, 2, 3, 4, 5],
+      "conditions": ["noMore"],
+      "ruleCount": 0,
+      "countPointsSuccess": 2,
+      "countPointsFail": -3,
+      "multiFactor": 0.5
    }
 ]

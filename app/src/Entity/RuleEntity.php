@@ -9,8 +9,8 @@ use App\Enum\DaysEnum;
 
 class RuleEntity
 {
-    protected const CATEGORY_FIELD = 'category';
-    protected const TYPE_FIELD = 'type';
+    protected const CATEGORY_NAME_FIELD = 'name';
+    protected const CATEGORY_TYPE_FIELD = 'type';
     protected const WORKING_DAYS_FIELD = 'workingDays';
     protected const CONDITIONS_FIELD = 'conditions';
     protected const ENABLED = 'enabled';
@@ -19,27 +19,30 @@ class RuleEntity
     protected const COUNT_POINTS_FAIL = 'countPointsFail';
     protected const MULTI_FACTOR = 'countPointsFail';
 
-    protected CategoryEnum $category;
-    protected CategoryTypeEnum $type;
+    public CategoryEnum $category;
+    public CategoryTypeEnum $type;
 
     /** @var array<int> */
-    protected array $workingDays = [];
+    public array $workingDays = [];
 
     /** @var ConditionEnum[] */
-    protected array $conditions = [];
+    public array $conditions = [];
 
-    protected bool $enabled = false;
-    protected int $ruleCount = 0;
-    protected int $countPointsSuccess = 0;
-    protected int $countPointsFail = 0;
+    public bool $enabled = false;
+    public int $ruleCount = 0;
+    public int $countPointsSuccess = 0;
+    public int $countPointsFail = 0;
 
-    /** Коэффицент увеличения  */
+    /**
+     * Получаем результат по категории за предыдущий день,
+     * умножаем на коэффициент и прибавляем к текущему результату
+     */
     protected float $multiFactor = 0.0;
 
     public static function createFromArray(array $data): self
     {
         $entity = new self();
-        $entity->category = CategoryEnum::fromString($data[self::CATEGORY_FIELD] ?? "");
+        $entity->category = CategoryEnum::fromString($data[self::CATEGORY_NAME_FIELD] ?? "");
         $entity->enabled = $data[self::ENABLED] ?? false;
         $entity->ruleCount = $data[self::RULE_COUNT] ?? 0;
         $entity->countPointsSuccess = $data[self::COUNT_POINTS_SUCCESS] ?? 0;
@@ -63,6 +66,7 @@ class RuleEntity
             }
         }
         $entity->workingDays = array_unique($entity->workingDays, SORT_NUMERIC);
+        $entity->type = CategoryTypeEnum::fromString($data[self::CATEGORY_TYPE_FIELD] ?? "");
 
         foreach ($data[self::CONDITIONS_FIELD] ?? [] as $item) {
             $entity->conditions[] = ConditionEnum::fromString($item);

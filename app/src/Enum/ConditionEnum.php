@@ -6,8 +6,6 @@ enum ConditionEnum: string
 {
     case noMore = "не больше";
     case noLess = "не меньше";
-    case progressionOn = "прогрессия при выполнении/невыполнении";
-    case progressionOff = "без прогресии при выполнении/невыполнении";
 
     public static function fromString(string $str): self
     {
