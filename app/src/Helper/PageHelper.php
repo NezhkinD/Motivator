@@ -4,8 +4,9 @@ namespace App\Helper;
 
 use App\Dto\DateDto;
 use App\Entity\RuleEntity;
-use App\Entity\TaskRuleEntity;
+use App\Entity\TodoPageEntity;
 use App\Enum\CategoryEnum;
+use App\Enum\CategoryTypeEnum;
 use DateTime;
 
 class PageHelper
@@ -27,11 +28,18 @@ class PageHelper
             if (!in_array($dayOfWeekNumber, $ruleEntity->workingDays)) {
                 continue;
             }
-            $name = null;
+
             if ($ruleEntity->category === CategoryEnum::water || $ruleEntity->category === CategoryEnum::calories) {
                 $name = $ruleEntity->category->value . " " . $ruleEntity->ruleCount . " " . $ruleEntity->type->name;
             }
-            $properties[] = ($name ?? $ruleEntity->category->value) . ":";
+
+            $value = match ($ruleEntity->type) {
+                CategoryTypeEnum::boolean, CategoryTypeEnum::kcal, CategoryTypeEnum::ml => "false",
+                default => 0,
+            };
+
+            $properties[] = ($name ?? $ruleEntity->category->value) . ": $value";
+            $name = null;
         }
 
         $properties[] = self::buildLine(DateDto::PARAM_CREATED_AT, $nowDate->format(self::MD_DATE_TIME_FORMAT));
@@ -43,7 +51,7 @@ class PageHelper
 
     public function getPropertiesFromPage(array $pages): array
     {
-        TaskRuleEntity::fromData($pages, $this->getRules());
+        TodoPageEntity::fromData($pages, $this->getRules());
     }
 
     /**

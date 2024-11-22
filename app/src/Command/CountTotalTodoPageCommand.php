@@ -9,14 +9,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-// php bin/console app:create-todo-page
+// php bin/console app:count-total-todo-page
 #[AsCommand(
-    name: 'app:create-todo-page',
-    description: 'Создать страницу с задачами на текущий день',
+    name: 'app:count-total-todo-page',
+    description: 'Посчитать total для страницы на текущую дату',
     aliases: ['app:create-todo-page'],
     hidden: false
 )]
-class CreateTodoPageCommand extends Command
+class CountTotalTodoPageCommand extends Command
 {
     protected const DIR_PAGES = __DIR__ . '/../../var/files/';
     protected PageHelper $pageCreator;

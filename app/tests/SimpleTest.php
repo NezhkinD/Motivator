@@ -3,7 +3,7 @@
 namespace App\Tests;
 
 use App\Entity\RuleEntity;
-use App\Entity\TaskRuleEntity;
+use App\Entity\TodoPageEntity;
 use App\Enum\CategoryEnum;
 use App\Helper\PageHelper;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -33,11 +33,12 @@ class SimpleTest extends KernelTestCase
         cool cola: \n
         created_at: 2024-11-21T17:01:00\n
         updated_at: 2024-11-21T17:01:00\n
+        total: 0\n
         ";
         $explode = explode("\n", $page);
-        $taskRuleEntity = TaskRuleEntity::fromData($rules, [$explode]);
+        $taskRuleEntity = TodoPageEntity::fromData($rules, [$explode]);
 
-        dd($taskRuleEntity->taskEntities);
+        dd($taskRuleEntity);
 
 
 
