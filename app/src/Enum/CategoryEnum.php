@@ -16,15 +16,15 @@ enum CategoryEnum: string
     case coolCola = 'cool cola';
     case vitamins = 'витамины';
     case steps = 'шаги';
-    case compressionStockings = 'копрессионные чулки';
-    case pressureMeasurement = 'измерение давления';
+    case compressionStockings = 'надеть копрессионные чулки';
+    case pressureMeasurement = 'измерить давление';
     case hygiene = 'гигиена';
     case faceCare = 'уход за лицом';
     case brushTeeth = 'чистка зубов';
     case readingImgBook = 'чтение худ. лит-ры';
     case readingTechBook = 'чтение тех. лит-ры';
-    case eduMephi = 'обучение мифи';
-    case personalProj = 'личные_проекты';
+    case eduMephi = 'обучение МИФИ';
+    case personalProj = 'личные проекты';
     case turnRoboVacuum = 'включить робот-пылесос';
     case washDish = 'помыть посуду';
     case washFloor = 'помыть полы';
@@ -34,17 +34,44 @@ enum CategoryEnum: string
     case sauna = 'сауна и хамам';
     case aeroEx = 'аэробные нагрузки';
     case stretching = 'растяжка';
+    case solar = 'солярий';
+    case taskFromCalendar = 'выполнение задачи из TODO';
+    case washTech = 'постирать тряпки для пылесоса';
+    case vacuumSofa = 'пропылесосить диван';
+    case clean = 'почистиь лоток кота';
+    case hardening = 'закаливание';
+    case total = 'total';
+
 
     public static function fromString(string $str): self
     {
+        $enum = self::find($str);
+        if (self::find($str) !== null) {
+            return $enum;
+        }
+
+        throw new \RuntimeException("Не найдено значение <$str> для " . __CLASS__);
+    }
+
+    public static function has(string $str): bool
+    {
+        return self::find($str) !== null;
+    }
+
+    protected static function find(string $str): ?CategoryEnum
+    {
         foreach (self::cases() as $item) {
-            if (self::clearStr($item->name) === self::clearStr($str) || self::clearStr($item->value) === self::clearStr($str)) {
+            if (strripos(self::clearStr($str), self::clearStr($item->name)) !== false) {
+                return $item;
+            }
+
+            if (strripos(self::clearStr($str), self::clearStr($item->value)) !== false) {
                 return $item;
             }
         }
-        throw new \RuntimeException("Не найдено значение $str для " . __CLASS__);
-    }
 
+        return null;
+    }
 
     protected static function clearStr(string $str): string
     {

@@ -1,5 +1,5 @@
 # Используем базовый образ PHP CLI
-FROM php:8.3.13-cli-alpine3.20
+FROM php:8.4.1-cli-alpine3.20
 
 # Устанавливаем переменные окружения
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
