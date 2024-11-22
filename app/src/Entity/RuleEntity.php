@@ -28,10 +28,17 @@ class RuleEntity
     /** @var ConditionEnum[] */
     public array $conditions = [];
 
+    /** Правило включено */
     public bool $enabled = false;
+
+    /** Норма выполнения */
     public int $ruleCount = 0;
-    public int $countPointsSuccess = 0;
-    public int $countPointsFail = 0;
+
+    /** Очки за выполнение */
+    public float $pointsSuccess = 0.0;
+
+    /** Очки за НЕвыполнение */
+    public float $pointsFail = 0.0;
 
     /**
      * Получаем результат по категории за предыдущий день,
@@ -45,8 +52,8 @@ class RuleEntity
         $entity->category = CategoryEnum::fromString($data[self::CATEGORY_NAME_FIELD] ?? "");
         $entity->enabled = $data[self::ENABLED] ?? false;
         $entity->ruleCount = $data[self::RULE_COUNT] ?? 0;
-        $entity->countPointsSuccess = $data[self::COUNT_POINTS_SUCCESS] ?? 0;
-        $entity->countPointsFail = $data[self::COUNT_POINTS_FAIL] ?? 0;
+        $entity->pointsSuccess = $data[self::COUNT_POINTS_SUCCESS] ?? 0;
+        $entity->pointsFail = $data[self::COUNT_POINTS_FAIL] ?? 0;
         $entity->multiFactor = $data[self::MULTI_FACTOR] ?? 0.0;
 
         foreach ($data[self::WORKING_DAYS_FIELD] ?? [] as $day) {

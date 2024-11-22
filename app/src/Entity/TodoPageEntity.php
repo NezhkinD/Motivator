@@ -31,7 +31,7 @@ class TodoPageEntity
     }
 
     /**
-     * @param RuleEntity[] $rules
+     * @param array $rules
      * @param array[] $tasks
      * @return self
      * @throws \Exception
@@ -39,7 +39,9 @@ class TodoPageEntity
     public static function fromData(array $rules, array $tasks): self
     {
         $self = new self();
-        $self->ruleEntities = $rules;
+        foreach ($rules as $rule) {
+            $self->ruleEntities[] = RuleEntity::createFromArray($rule);
+        }
 
         foreach ($tasks as $page) {
             $page = $self->mapTrim($self->filter($page));
@@ -66,7 +68,7 @@ class TodoPageEntity
                     continue;
                 }
 
-                $self->taskEntities[] = TaskEntity::create(CategoryEnum::fromString($lineDto->name), $lineDto->value);
+                $self->taskEntities[] = TaskEntity::create(CategoryEnum::fromString($lineDto->name), $lineDto->value, 0);
             }
         }
 
@@ -82,6 +84,15 @@ class TodoPageEntity
             }
         }
         return $this;
+    }
+
+    public function findByCategoryEnumInTasks(CategoryEnum $category): ?int
+    {
+        $found = array_find_key($this->taskEntities, function (TaskEntity $value) use ($category) {
+           return $value->category === $category;
+        });
+
+        return $found ?? null;
     }
 
     protected function find(array $page, string $needle): string
