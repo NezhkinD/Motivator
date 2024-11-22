@@ -28,7 +28,7 @@ class PageHelper
                 continue;
             }
             $name = null;
-            if ($ruleEntity->category === CategoryEnum::water || $ruleEntity->category === CategoryEnum::caloriheaes) {
+            if ($ruleEntity->category === CategoryEnum::water || $ruleEntity->category === CategoryEnum::calories) {
                 $name = $ruleEntity->category->value . " " . $ruleEntity->ruleCount . " " . $ruleEntity->type->name;
             }
             $properties[] = ($name ?? $ruleEntity->category->value) . ":";
