@@ -15,7 +15,7 @@ class TaskRuleEntity
     public array $ruleEntities;
 
     /**
-     * @param array $rules
+     * @param RuleEntity[] $rules
      * @param array[] $pages
      * @return self
      * @throws \Exception
@@ -23,10 +23,7 @@ class TaskRuleEntity
     public static function fromData(array $rules, array $pages): self
     {
         $self = new self();
-
-        foreach ($rules as $rule) {
-            $self->ruleEntities[] = RuleEntity::createFromArray($rule);
-        }
+        $self->ruleEntities = $rules;
 
         foreach ($pages as $page) {
             $page = array_filter($page, function (string $value) {

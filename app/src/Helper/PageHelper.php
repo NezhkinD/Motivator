@@ -4,9 +4,11 @@ namespace App\Helper;
 
 use App\Dto\DateDto;
 use App\Entity\RuleEntity;
+use App\Entity\TaskRuleEntity;
 use App\Enum\CategoryEnum;
+use DateTime;
 
-class PageCreator
+class PageHelper
 {
     protected const DIR_ALL_RULES = __DIR__ . "/../../config/allRules.json";
     protected const MD_DATE_TIME_FORMAT = 'Y-m-dTH:i:s';
@@ -14,11 +16,11 @@ class PageCreator
     /**
      * @throws \JsonException
      */
-    public function createTodoPageContent(\DateTimeInterface $dateTime): string
+    public function createTodoPageContent(DateTime $dateTime): string
     {
         $dayOfWeekNumber = (int)$dateTime->format("w");
         $rules = json_decode(file_get_contents(self::DIR_ALL_RULES), true, 512, JSON_THROW_ON_ERROR);
-        $nowDate = new \DateTime();
+        $nowDate = new DateTime();
 
         foreach ($rules as $rule) {
             $ruleEntity = RuleEntity::createFromArray($rule);
@@ -26,7 +28,7 @@ class PageCreator
                 continue;
             }
             $name = null;
-            if ($ruleEntity->category === CategoryEnum::water || $ruleEntity->category === CategoryEnum::calories) {
+            if ($ruleEntity->category === CategoryEnum::water || $ruleEntity->category === CategoryEnum::caloriheaes) {
                 $name = $ruleEntity->category->value . " " . $ruleEntity->ruleCount . " " . $ruleEntity->type->name;
             }
             $properties[] = ($name ?? $ruleEntity->category->value) . ":";
@@ -37,6 +39,31 @@ class PageCreator
         $properties[] = self::buildLine(CategoryEnum::total->value, 0);
 
         return self::createPropertiesMd($properties);
+    }
+
+    public function getPropertiesFromPage(array $pages): array
+    {
+        TaskRuleEntity::fromData($pages, $this->getRules());
+    }
+
+    /**
+     * @return RuleEntity[]
+     * @throws \JsonException
+     */
+    protected function getRules(?int $selectDayNumber = null): array
+    {
+        $rules = json_decode(file_get_contents(self::DIR_ALL_RULES), true, 512, JSON_THROW_ON_ERROR);
+        $ruleEntities = [];
+        foreach ($rules as $rule) {
+            $ruleEntity = RuleEntity::createFromArray($rule);
+
+            if ($selectDayNumber !== null && !in_array($selectDayNumber, $ruleEntity->workingDays)) {
+                continue;
+            }
+
+            $ruleEntities[] = $ruleEntity;
+        }
+        return $ruleEntities;
     }
 
     protected static function buildLine(string $name, $value): string

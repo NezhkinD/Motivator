@@ -28,6 +28,3 @@ unlock:
 	sudo chmod 775 ./app
 
 run: build up
-
-show:
-	@echo ${DIR_MD}

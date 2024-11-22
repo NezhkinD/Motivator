@@ -5,7 +5,7 @@ namespace App\Tests;
 use App\Entity\RuleEntity;
 use App\Entity\TaskRuleEntity;
 use App\Enum\CategoryEnum;
-use App\Helper\PageCreator;
+use App\Helper\PageHelper;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -51,7 +51,7 @@ class SimpleTest extends KernelTestCase
         );
 
 
-        $pageCreator = new PageCreator();
+        $pageCreator = new PageHelper();
         file_put_contents(__DIR__ . "/test.md", $pageCreator->createTodoPageContent(new \DateTime()));
 
 

@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Helper\PageCreator;
+use App\Helper\PageHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateTodoPageCommand extends Command
 {
     protected const DIR_PAGES = __DIR__ . '/../../var/files/';
-    protected PageCreator $pageCreator;
+    protected PageHelper $pageCreator;
 
-    public function __construct(PageCreator $pageCreator)
+    public function __construct(PageHelper $pageCreator)
     {
         $this->pageCreator = $pageCreator;
         parent::__construct('app:create-todo-page');
