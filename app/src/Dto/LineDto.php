@@ -7,7 +7,7 @@ use App\Helper\StringExploder;
 class LineDto
 {
     public string $name;
-    public int $value;
+    public float $value;
 
     public static function fromStr(string $str): self
     {

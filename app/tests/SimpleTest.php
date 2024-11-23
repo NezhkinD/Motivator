@@ -31,7 +31,8 @@ class SimpleTest extends KernelTestCase
         места у дома (тренировка): true\n
         кальян: 0\n
         red bull: 0\n
-        cool cola: 0\n
+        cool cola: 1\n
+        шаги: 10000\n
         created_at: 2024-11-21T17:01:00\n
         updated_at: 2024-11-21T17:01:00\n
         total: 0\n
@@ -41,7 +42,7 @@ class SimpleTest extends KernelTestCase
         $scoreCounter = new ScoreCounter();
         $countTotal = $scoreCounter->countTotal($todoPageEntity, [$todoPageEntity]);
 
-        dd($countTotal->taskEntities);
+        dd($countTotal->total);
 
 
 
@@ -56,7 +57,7 @@ class SimpleTest extends KernelTestCase
 
 
         $pageCreator = new PageHelper();
-        file_put_contents(__DIR__ . "/test.md", $pageCreator->createTodoPageContent(new \DateTime()));
+        file_put_contents(__DIR__ . "/test.md", $pageCreator->createNewTodoPageContent(new \DateTime()));
 
 
         dd(11);

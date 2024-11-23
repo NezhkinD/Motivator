@@ -6,6 +6,9 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_HOME=/composer \
     PATH="/composer/vendor/bin:$PATH"
 
+# поиск конфига php --ini
+COPY php.ini /usr/local/etc/php
+
 # Устанавливаем зависимости
 RUN apk update && apk add --no-cache \
     bash \

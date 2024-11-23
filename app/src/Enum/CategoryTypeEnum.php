@@ -8,6 +8,7 @@ enum CategoryTypeEnum: string
     case number = "количество";
     case kcal = "ккал";
     case ml = "миллилитры";
+    case steps = "шаги";
 
     public static function fromString(string $str): self
     {

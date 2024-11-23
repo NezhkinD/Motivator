@@ -108,5 +108,16 @@
       "countPointsSuccess": 2,
       "countPointsFail": -3,
       "multiFactor": 0.5
+   },
+   {
+      "enabled": true,
+      "name": "steps",
+      "type": "steps",
+      "workingDays": [1, 2, 3, 4, 5],
+      "conditions": ["noMore"],
+      "ruleCount": 3000,
+      "countPointsSuccess": 2,
+      "countPointsFail": -3,
+      "multiFactor": 0.5
    }
 ]

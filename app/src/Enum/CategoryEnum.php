@@ -5,9 +5,9 @@ namespace App\Enum;
 enum CategoryEnum: string
 {
     case water = "вода";
-    case wakeUp = "подъем в 06:30";
-    case goToBed = 'отбой в 22:30';
-    case turnOffAllGadgets = "выключить все гаджеты в 22:00";
+    case wakeUp = "подъем в 06-30";
+    case goToBed = 'отбой в 22-30';
+    case turnOffAllGadgets = "выключить все гаджеты в 22-00";
     case calories = 'калории';
     case trainingPlaceNearHome = 'места у дома (тренировка)';
     case trainingPool = 'бассейн (тренировка)';

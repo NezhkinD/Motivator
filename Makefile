@@ -21,6 +21,8 @@ up:
       --name ${DOCKER_CONTAINER} \
       -v ./app:/home/app \
       -v ${DIR_MD}:/home/app/var/files \
+      -v /etc/localtime:/etc/localtime:ro \
+      -v /etc/timezone:/etc/timezone:ro \
       ${DOCKER_IMG}
 
 unlock:

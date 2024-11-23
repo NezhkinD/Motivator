@@ -2,9 +2,9 @@
 
 namespace App\Helper;
 
+use App\Entity\RuleEntity;
 use App\Entity\TodoPageEntity;
 use App\Enum\CategoryTypeEnum;
-use DateTime;
 
 class ScoreCounter
 {
@@ -16,7 +16,6 @@ class ScoreCounter
     public function countTotal(TodoPageEntity $todoPage, array $todoPagesEntities): TodoPageEntity
     {
         $total = 0.0;
-        $pages = $this->buildPagesMap($todoPagesEntities);
         foreach ($todoPage->ruleEntities as $ruleEntity) {
             if (!$ruleEntity->enabled) {
                 continue;
@@ -26,26 +25,45 @@ class ScoreCounter
             if ($taskEntityIndex === null) {
                 continue;
             }
-            $selectTask = $todoPage->taskEntities[$taskEntityIndex];
-
-            switch ($ruleEntity->type) {
-                case CategoryTypeEnum::boolean:
-                case CategoryTypeEnum::kcal:
-                case CategoryTypeEnum::ml:
-                    if ($selectTask->result === $ruleEntity->ruleCount) {
-                        $selectTask->score = $ruleEntity->pointsSuccess;
-                    } else {
-                        $selectTask->score = $ruleEntity->pointsFail;
-                    }
-                    break;
-                default:
-                    $selectTask->score = 0;
-            }
-
-            $todoPage->taskEntities[$taskEntityIndex] = $selectTask;
+            $score = $this->count($ruleEntity->type, $todoPage->taskEntities[$taskEntityIndex]->result, $ruleEntity);
+            $todoPage->taskEntities[$taskEntityIndex]->score = $score;
+            $total += $score;
         }
 
+        $todoPage->total = $total;
+        $todoPage->updatedAt = new \DateTime();
         return $todoPage;
+    }
+
+    protected function count(CategoryTypeEnum $category, int $currentResult, RuleEntity $ruleEntity): float
+    {
+        switch ($category) {
+            case CategoryTypeEnum::boolean:
+            case CategoryTypeEnum::number:
+            case CategoryTypeEnum::ml:
+                if ($currentResult > 0) {
+                    $score = $ruleEntity->pointsSuccess;
+                } else {
+                    $score = $ruleEntity->pointsFail;
+                }
+                break;
+            case CategoryTypeEnum::kcal:
+                if ($currentResult <= $ruleEntity->ruleCount) {
+                    $score = $ruleEntity->pointsSuccess;
+                } else {
+                    $score = $ruleEntity->pointsFail;
+                }
+                break;
+            case CategoryTypeEnum::steps:
+                if ($currentResult >= $ruleEntity->ruleCount) {
+                    $score = ($currentResult - $ruleEntity->ruleCount) / $ruleEntity->ruleCount * $ruleEntity->pointsSuccess;
+                } else {
+                    $score = $ruleEntity->pointsFail;
+                }
+                break;
+        }
+
+        return round($score ?? 0.0, 1);
     }
 
     /**
