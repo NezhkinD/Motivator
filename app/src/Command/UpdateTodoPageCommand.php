@@ -8,11 +8,11 @@ use App\Helper\ScoreCounter;
 use DateTime;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
-// php bin/console app:update-todo-page
+// php bin/console app:update-todo-page -v
 #[AsCommand(
     name: 'app:update-todo-page',
     description: 'Посчитать total для страницы на текущую дату',
@@ -45,10 +45,11 @@ class UpdateTodoPageCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $logger = new ConsoleLogger($output);
         $rules = json_decode(file_get_contents(self::DIR_ALL_RULES), true, 512, JSON_THROW_ON_ERROR);
 
         if (!is_file($this->pathToPage)) {
-            $output->writeln("Файл " . $this->pathToPage . " НЕ существует");
+            $this->warning($logger, "Файл " . $this->pathToPage . " НЕ существует");
             return Command::SUCCESS;
         }
 
@@ -59,26 +60,8 @@ class UpdateTodoPageCommand extends Command
         $content = $todoPageEntity->buildProperties() . $todoPageEntity->buildScoreInfo();
         file_put_contents($this->pathToPage, $content);
 
-        $output->writeln("файл успешно обновлен " . $this->pathToPage);
-        $this->showProgressBar($output, self::SLEEP_IN_SEC);
+        $this->notice($logger, "Файл успешно обновлен " . $this->pathToPage);
         return Command::SUCCESS;
-    }
-
-    protected function showProgressBar(OutputInterface $output, int $units): void
-    {
-        $output->writeln("Ждем $units сек.");
-        $progressBar = new ProgressBar($output, $units);
-        $progressBar->setFormat('verbose');
-        $progressBar->start();
-
-        $i = 0;
-        while ($i++ < $units) {
-            $progressBar->advance();
-            sleep(1);
-        }
-        $progressBar->finish();
-        $output->writeln("");
-        $output->writeln("Завершаем работу");
     }
 
     protected function getProperties(string $text): string
@@ -91,5 +74,28 @@ class UpdateTodoPageCommand extends Command
         }
 
         return "";
+    }
+
+    protected function warning(ConsoleLogger $logger, string $message): void
+    {
+        $logger->warning(self::getDataForLog() . ", " . "$message | Ждем " . self::SLEEP_IN_SEC . " сек");
+        sleep(self::SLEEP_IN_SEC);
+    }
+
+    protected function notice(ConsoleLogger $logger, string $message): void
+    {
+        $logger->notice(self::getDataForLog() . ", " . "$message | Ждем " . self::SLEEP_IN_SEC . " сек");
+        sleep(self::SLEEP_IN_SEC);
+    }
+
+    protected function error(ConsoleLogger $logger, string $message): void
+    {
+        $logger->error(self::getDataForLog() . ", " . "$message | Ждем " . self::SLEEP_IN_SEC . " сек");
+        sleep(self::SLEEP_IN_SEC);
+    }
+
+    protected static function getDataForLog(): string
+    {
+        return (new DateTime())->format('Y-m-dTH-i-s');
     }
 }
